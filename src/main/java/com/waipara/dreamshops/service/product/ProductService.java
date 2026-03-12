@@ -4,14 +4,16 @@ import com.waipara.dreamshops.exceptions.ProductNotFoundException;
 import com.waipara.dreamshops.model.Category;
 import com.waipara.dreamshops.model.Product;
 import com.waipara.dreamshops.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService{
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public Product addProduct(Product product) {
@@ -48,26 +50,26 @@ public class ProductService implements IProductService{
 
     @Override
     public List<Product> getProductsByBrand(String brand) {
-        return List.of();
+        return productRepository.findByBrand(brand);
     }
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return List.of();
+        return productRepository.findByCategoryNameAndBrand(category,brand);
     }
 
     @Override
     public List<Product> getProductsByName(String name) {
-        return List.of();
+        return productRepository.findByName(name);
     }
 
     @Override
     public List<Product> getProductsByBrandAndName(String brand, String name) {
-        return List.of();
+        return productRepository.findByBrandAndName(brand,name);
     }
 
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
-        return 0L;
+        return productRepository.countByBrandAndName(brand,name);
     }
 }
