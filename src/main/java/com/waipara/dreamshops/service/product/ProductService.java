@@ -1,6 +1,7 @@
 package com.waipara.dreamshops.service.product;
 
 import com.waipara.dreamshops.exceptions.ProductNotFoundException;
+import com.waipara.dreamshops.model.Category;
 import com.waipara.dreamshops.model.Product;
 import com.waipara.dreamshops.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,12 @@ public class ProductService implements IProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public List<Product> getProductsByCategory(String category) {
-        return List.of();
+        return productRepository.findByCategoryName(category);
     }
 
     @Override
