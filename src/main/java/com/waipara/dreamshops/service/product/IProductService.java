@@ -1,12 +1,13 @@
 package com.waipara.dreamshops.service.product;
 
 import com.waipara.dreamshops.model.Product;
+import com.waipara.dreamshops.request.AddProductRequest;
 
 import java.util.List;
 
 public interface IProductService {
     //Métodos de Interfase
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest product);
     Product getProductById(Long id);
     void deleteProductById(Long id);
     void updateProduct(Product product, Long product_Id);

@@ -3,23 +3,43 @@ package com.waipara.dreamshops.service.product;
 import com.waipara.dreamshops.exceptions.ProductNotFoundException;
 import com.waipara.dreamshops.model.Category;
 import com.waipara.dreamshops.model.Product;
+import com.waipara.dreamshops.repository.CategoryRepository;
 import com.waipara.dreamshops.repository.ProductRepository;
+import com.waipara.dreamshops.request.AddProductRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService{
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public Product addProduct(Product product) {
-        return null;
+    public Product addProduct(AddProductRequest request) {
+        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+                .orElseGet(() -> {
+                    Category newCategory = new Category(request.getCategory().getName());
+                    return categoryRepository.save(newCategory);
+                });
+        request.setCategory(category);
+        return productRepository.save(createProduct(request,category));
     }
 
+    private Product createProduct(AddProductRequest request, Category category) {
+        return new Product(
+                request.getName(),
+                request.getBrand(),
+                request.getPrice(),
+                request.getInventory(),
+                request.getDescription(),
+                category
+        );
+    }
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
